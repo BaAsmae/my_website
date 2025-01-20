@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>POPCORN & CHILL</title>  
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                font-family: "Open Sans", sans-serif;
+            }
+            body {
+                height: 100vh;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                background: linear-gradient(to bottom, #398cb8 10%, #661483 85%);
+            }
+            .header {
+                position: fixed;
+                width: 100%;
+                z-index:1000;
+            }
+            .navbar {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px 15px;
+            }
+            .navbar .links {
+                display: flex;
+                align-items: center;
+                list-style: none;
+                gap: 35px;
+            }
+            .navbar .links a {
+                font-weight: 500;
+                text-decoration: none;
+                color: white;
+                padding: 10px 0;
+                transition: 0.2s ease;
+            }
+            .navbar .links a:hover {
+                color: black;
+                font-size: larger;
+            }
+            .navbar .buttons a {
+                text-decoration: none;
+                color: white;
+                font-size: 1rem;
+                padding: 15px 0;
+                transition: 0.2s ease;
+            }
+            .navbar .buttons a:not(:last-child) {
+                margin-right: 30px;
+            }
+            .navbar .buttons .signin , .navbar .buttons .signup {
+                border: 1px solid white;
+                border-radius: 0.375rem;
+                padding: 10px 20px;
+                text-align: center;
+                transition: 0.2s ease;
+                background-color: #661483;
+            }
+            .navbar .buttons :hover {
+                background-color: black;
+            }
+            .section {
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+                height: 95vh;
+                padding: 0 15px;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            .section .center {
+                max-width: 50%;
+                color: #fff;
+            }
+            .center h2 {
+                font-size: 4rem;
+                margin-bottom: 20px;
+                font-family: "Brush Script MT", cursive;
+            }
+            .center p {
+                font-size: 1.2rem;
+                margin-bottom: 20px;
+                color:#c7e0edca;
+            }
+            .section .img img {
+                width: 517px;
+            }
+            .section .buttons {
+                margin-top: 40px;
+            }
+            .section .buttons a {
+                text-decoration: none;
+                color: #fff;
+                padding: 12px 24px;
+                border-radius: 0.375rem;
+                font-weight: 600;
+                transition: 0.2s ease;
+                display: inline-block;
+            }
+            .section .buttons a:not(:last-child) {
+                margin-right: 15px;
+            }
+            .section .buttons .join {
+                border: 1px solid #fff;
+                border-radius: 0.375rem;
+                background-color: #398cb8;
+            }
+            .section .buttons .learn {
+                border: 1px solid #fff;
+                border-radius: 0.375rem;
+                background-color: #398cb8;
+            }
+            .section .buttons a:hover {
+                background-color: black;
+            }
+            /* Hamburger menu styles */
+            #menu-toggle {
+                display: none;
+            }
+            #hamburger {
+                font-size: 1.8rem;
+                color: white;
+                cursor: pointer;
+                display: none;
+                order: 1;
+            }
+            @media screen and (max-width: 1023px) {
+                .navbar .logo a {
+                    font-size: 1.5rem;
+                }
+                .links {
+                    position: fixed;
+                    left: -100%;
+                    top: 75px;
+                    width: 100%;
+                    height: 100vh;
+                    padding-top: 50px;
+                    background: black;
+                    flex-direction: column;
+                    transition: 0.3s ease;
+                }
+                .navbar #menu-toggle:checked ~ .links {
+                    left: 0;
+                }
+                .navbar #hamburger {
+                    display: block;
+                }
+
+                .header .buttons {
+                    display: none;
+                }
+                .section .hero {
+                    max-width: 100%;
+                    text-align: center;
+                }
+                .section img {
+                    display: none;
+                }
+            }
+            h2{
+                text-align: center; 
+                margin-top: 15px; 
+                margin-bottom: 10px;     
+            }
+            h1{
+                text-align: center;
+                color:white;
+                font-family: 'Snell Roundhand', cursive;
+                font-size: 30px;
+            }
+            .sous{
+                background-color:#661483;
+            }
+            .titre{
+                background-color: #398cb8;
+                color: black;
+                text-align: center;
+                padding: 15px;
+                border:2px solid;
+                border-color: white;
+            }
+            .encadrement {
+                padding: 20px;
+                margin: 10px;
+                border: 1px solid rgb(127, 125, 125);
+                background-color: #c7e0ed;
+            }
+            .parties{
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .encadrement a{
+                color: #398cb8;
+            }
+            .encadrement a:hover{
+                color:#661483;
+            }
+            .modal {
+                display: none; 
+                position: fixed; 
+                z-index: 1000; 
+                left: 0;
+                top: 0;
+                width: 100%; 
+                height: 100%; 
+                overflow: auto; 
+                background-color: rgba(0,0,0,0.4); 
+            }
+            .modal-content {
+                background-color: #fefefe;
+                margin: 15% auto; 
+                padding: 40px;
+                border: 1px solid #888;
+                width: 300px; 
+                border-radius: 5px; 
+            }
+            .close-button {
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+            .close-button:hover,.close-button:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+            label {
+                display: block;
+                margin: 10px 0 5px;
+            }
+            input {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+            button {
+                background-color: #661483; 
+                color: white; 
+                border: none; 
+                border-radius: 5px; 
+                padding: 10px;
+                cursor: pointer; 
+                width: 100%; 
+            }
+            button:hover {
+                background-color: #5a0e6b; 
+            }
+        </style>
+    </head>
+    <body>
+        <div id="Home">
+            <header class="header">
+                <nav class="navbar">
+                    <img src="pop.png" id="logo" width="80" height="80">
+                    <input type="checkbox" id="menu-toggle">
+                    <label for="menu-toggle" id="hamburger">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                            <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </label>
+                    <ul class="links">
+                        <li><a href="#Home">Home </a></li>
+                        <li><a href="#Series">Series</a></li>
+                        <li><a href="#Movies">Movies</a></li>
+                        <li><a href="#Actors">Actors</a></li>
+                        <li><a href="#Actresses">Actresses</a></li>
+                        <li><a href="#Informations">Informations</a></li>
+                        <li><a href="#Contact_us">Contact us</a></li>
+                    </ul>
+                    <div class="buttons">
+                        <a href="#" class="signin">Sign In</a>
+                        <a href="#" class="signup">Sign Up</a>
+                    </div>
+                    </nav>
+            </header>
+            <section class="section">
+                <div class="center">
+                    <h2>POPCORN & CHILL</h2>
+                    <p>Where Every Story Comes to Life – Uncover Your All-Time Favorites Here!</p>
+                    <div class="buttons">
+                        <a href="#Contact_us" class="join">Contact us</a>
+                        <a href="#Informations" class="learn">More informations</a>
+                    </div>
+                </div>
+                <img src="movie.jpg" width="370" height="370" id="img">
+            </section>
+        </div>
+
+        <div class="sous">
+
+<!-- PARTIE 1 --> 
+
+            <div id="Series">
+                <header class="titre">
+                    <h1>Series</h1>
+                </header>
+                <div  class="parties">
+                    <section class="encadrement">
+                        <img src="https://m.media-amazon.com/images/M/MV5BMmRlNjQxNWQtMjk1OS00N2QxLTk0YWQtMzRhYjY5YTFhNjMxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" height="493" width="333">
+                        <h2>The Queen's Gambit</h2>
+                    </section>
+                    <section class="encadrement">
+                        <img src="https://m.media-amazon.com/images/M/MV5BOTA1Mzc2N2ItZWRiNS00MjQzLTlmZDQtMjU0NmY1YWRkMGQ4XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" height="500" width="333">
+                        <h2>Harry Potter</h2>
+                    </section>
+                    <section class="encadrement">
+                        <img src="https://m.media-amazon.com/images/M/MV5BMTNhMDJmNmYtNDQ5OS00ODdlLWE0ZDAtZTgyYTIwNDY3OTU3XkEyXkFqcGc@._V1_.jpg" height="494" width="330">
+                        <h2>Game of Thrones</h2>
+                    </section>
+                    <section class="encadrement">
+                        <img src="https://fr.web.img4.acsta.net/pictures/22/05/18/14/31/5186184.jpg" height="480" width="360">
+                        <h2>Stranger Things</h2>
+                    </section>
+                    <section class="encadrement">
+                        <img src="https://m.media-amazon.com/images/M/MV5BY2E1NDI5OWEtODJmYi00Nzg2LWI4MjUtODFiMTU2YWViOTU3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" height="493" width="333">
+                        <h2>Wednesday</h2>
+                    </section>
+                    <section class="encadrement">
+                        <img src="https://m.media-amazon.com/images/I/81cuM--Z+IL._AC_UF894,1000_QL80_.jpg" height="500" width="358">
+                        <h2>The Good Doctor</h2>
+                    </section>    
+                </div>
+            </div>
+        
+<!-- PARTIE 2 -->        
+
+            <div id="Movies">
+                <header class="titre">
+                    <h1>Movies</h1>
+                </header>
+                <div  class="parties">
+                    <section class="encadrement">
+                        <img src="https://image.tmdb.org/t/p/original/qky6Qm6O85zYVGSH2h3GaCuuCQ7.jpg" height="480" width="323">
+                        <h2>It</h2>
+                    </section>
+                    <section class="encadrement">
+                        <img src="https://m.media-amazon.com/images/S/pv-target-images/f46fda372bee46fc493f53530e37cf357aca3a55a064c3aa2ff612a78c32da8e.jpg" height="483" width="362">
+                        <h2>Shutter Island</h2>
+                    </section>
+                    <section class="encadrement">
+                        <img src="https://m.media-amazon.com/images/M/MV5BYjgxMTQ3NjMtOTI1Yy00Yzg4LWJlNWQtMjFkNjVlYjU0OWIyXkEyXkFqcGc@._V1_.jpg" height="480" width="324">
+                        <h2>Alice in Wonderland</h2>
+                    </section>
+                    <section class="encadrement">
+                        <img src="https://m.media-amazon.com/images/M/MV5BMTcxNDI2NDAzNl5BMl5BanBnXkFtZTgwODM3MTc2MjE@._V1_FMjpg_UX1000_.jpg" height="506" width="333">
+                        <h2>The Hunger Games</h2>
+                    </section>
+                    <section class="encadrement">
+                        <img src="https://play-lh.googleusercontent.com/MZbvjILfqFb3CpnJuz0Pp58BBP_eQZpACY8h8q_1zjWomVe0rTIGgj4OGeZktAFGi3QP" height="512" width="362">
+                        <h2>Home Alone</h2>
+                    </section>
+                    <section class="encadrement">
+                        <img src="https://m.media-amazon.com/images/M/MV5BYWFjODExZWEtYzIwYS00M2YwLTk4YTktNDQ5ZmVmOThiNmI1XkEyXkFqcGc@._V1_.jpg" height="518" width="349">
+                        <h2>Jumanji</h2>
+                    </section>    
+                </div>
+            </div>
+
+<!-- PARTIE 3 -->    
+
+            <div id="Actors">
+                <header class="titre">
+                    <h1>Actors</h1>
+                </header>
+                <div class="parties" >
+                    <section class="encadrement">
+                        <img src="https://m.media-amazon.com/images/M/MV5BYzVmYjIxMzgtZWU2Ny00MjAyLTk5ZWUtZDEyMTliYjczMmIxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" height="500" width="333">
+                        <h2>Daniel Radcliffe</h2>
+                        <ul>
+                            <li><b>Full name:</b> Daniel Jacob Radcliffe</li>
+                            <li><b>Born:</b> July 23, 1989</li>
+                            <li><b>Age:</b> 35 yo</li>
+                            <li><b>Height:</b> 1,65 m</li>
+                            <li><b>Nationality:</b> English</li>
+                            <li><b>Some of his films/series:</b>
+                                <ul>
+                                    <li>Harry Potter</li>
+                                    <li>The Woman in Black</li>
+                                    <li>Horns</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                    <section class="encadrement">
+                        <img src="https://fr.web.img5.acsta.net/pictures/16/02/08/12/22/062470.jpg" height="504" width="378">
+                        <h2>Freddie Highmore</h2>
+                        <ul>
+                            <li><b>Full name:</b> Alfred Thomas Highmore</li>
+                            <li><b>Born:</b> February 14, 1992</li>
+                            <li><b>Age:</b> 32 yo</li>
+                            <li><b>Height:</b> 1,78 m</li>
+                            <li><b>Nationality:</b> English</li>
+                            <li><b>Some of his films/series:</b>
+                                <ul>
+                                    <li>The Good Doctor</li>
+                                    <li>Charlie and the Chocolate Factory</li>
+                                    <li>The Spiderwick Chronicles</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                    <section class="encadrement">
+                        <img src="https://m.media-amazon.com/images/M/MV5BMTI4OTk0MjQ1OV5BMl5BanBnXkFtZTcwNTE3NjM3Mw@@._V1_FMjpg_UX1000_.jpg" height="500" width="333">
+                        <h2>Josh Hutcherson</h2>
+                        <ul>
+                            <li><b>Full name:</b> Joshua Ryan Hutcherson</li>
+                            <li><b>Born:</b> October 12, 1992</li>
+                            <li><b>Age:</b> 32 yo</li>
+                            <li><b>Height:</b> 1,78 m</li>
+                            <li><b>Nationality:</b> Americain</li>
+                            <li><b>Some of his films/series:</b>
+                                <ul>
+                                    <li>The Hunger Games</li>
+                                    <li>Bridge to Terabithia</li>
+                                    <li>Journey to the Center of the Earth</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                    <section class="encadrement">
+                        <img src="https://quchronicle.com/wp-content/uploads/2024/01/therock_RGB_Eva-Rinaldi-768x990.png" height="484" width="358">
+                        <h2>Dwayne Johnson</h2>
+                        <ul>
+                            <li><b>Full name:</b> Dwayne Douglas Johnson</li>
+                            <li><b>Born:</b> May 2, 1972</li>
+                            <li><b>Age:</b> 52 yo</li>
+                            <li><b>Height:</b> 1,96 m</li>
+                            <li><b>Nationality:</b> Americain</li>
+                            <li><b>Some of his films/series:</b>
+                                <ul>
+                                    <li>Jumanji</li>
+                                    <li>Red Notice</li>
+                                    <li>Central Intelligence</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                    <section class="encadrement">
+                        <img src="https://cdn.britannica.com/65/227665-050-D74A477E/American-actor-Leonardo-DiCaprio-2016.jpg" height="485" width="386">
+                        <h2>Leonardo DiCaprio</h2>
+                        <ul>
+                            <li><b>Full name:</b> Leonardo Wilhelm DiCaprio</li>
+                            <li><b>Born:</b> November 11, 1974</li>
+                            <li><b>Age:</b> 50 yo</li>
+                            <li><b>Height:</b> 1,83 m</li>
+                            <li><b>Nationality:</b> Americain</li>
+                            <li><b>Some of his films/series:</b>
+                                <ul>
+                                    <li>Titanic</li>
+                                    <li>Shutter Island</li>
+                                    <li>Romeo + Juliet</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                    <section class="encadrement">
+                        <img src="https://static.wikia.nocookie.net/harrypotter/images/7/7c/Johnny-Depp-Gellert-Grindelwald-Casting.jpg/revision/latest?cb=20230215165446" height="488" width="359">
+                        <h2>Johnny Depp</h2>
+                        <ul>
+                            <li><b>Full name:</b> John Christopher Depp II</li>
+                            <li><b>Born:</b> June 9, 1963</li>
+                            <li><b>Age:</b> 61 yo</li>
+                            <li><b>Height:</b> 1,78 m</li>
+                            <li><b>Nationality:</b> Americain</li>
+                            <li><b>Some of his films/series:</b>
+                                <ul>
+                                    <li>Charlie and the Choclate Factory</li>
+                                    <li>Alice in Wonderland</li>
+                                    <li>Pirates of the Caribbean</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                </div> 
+            </div>
+
+<!-- PARTIE 4 -->  
+
+            <div id="Actresses">
+                <header class="titre">
+                    <h1>Actresses</h1>
+                </header>
+                <div class="parties" >
+                    <section class="encadrement">
+                        <img src="https://goldenglobes.com/wp-content/uploads/2023/10/jennifer-lawrence-nom-pro-gettyimages-1357366854.jpg" height="495" width="372">
+                        <h2>Jennifer Lawrence</h2>
+                        <ul>
+                            <li><b>Full Name:</b> Jennifer Shrader Lawrence</li>
+                            <li><b>Born:</b> August 15, 1990</li>
+                            <li><b>Age:</b> 34 yo</li>
+                            <li><b>Height:</b> 1.75 m</li>
+                            <li><b>Nationality:</b> American</li>
+                            <li><b>Some of her films/series:</b>
+                                <ul>
+                                    <li>The Hunger Games</li>
+                                    <li>X-Men</li>
+                                    <li>Red Sparrow</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                    <section class="encadrement">
+                        <img src="https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/613075_v9_bb.jpg" height="504" width="378">
+                        <h2>Emilia Clarke</h2>
+                        <ul>
+                            <li><b>Full name:</b> Emilia Isobel Euphemia Rose Clarke</li>
+                            <li><b>Born:</b> Octobre 23, 1986</li>
+                            <li><b>Age:</b> 38 yo</li>
+                            <li><b>Height:</b> 1.57 m</li>
+                            <li><b>Nationality:</b> British</li>
+                            <li><b>Some of her films/series:</b>
+                                <ul>
+                                    <li>Game of Thrones</li>
+                                    <li>Me Before You</li>
+                                    <li>Solo: A Star Wars Story</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                    <section class="encadrement">
+                        <img src="https://media.themoviedb.org/t/p/w500/qYNofOjlRke2MlJVihmJmEdQI4v.jpg" height="502" width="335">
+                        <h2>Anya Taylor-Joy</h2>
+                        <ul>
+                            <li><b>Full name:</b> Anya Josephine Marie Taylor-Joy</li>
+                            <li><b>Born:</b> April 16, 1996</li>
+                            <li><b>Age:</b> 28 yo</li>
+                            <li><b>Height:</b> 1.73 m</li>
+                            <li><b>Nationality:</b> American</li>
+                            <li><b>Some of her films/series:</b>
+                                <ul>
+                                    <li>The Queen's Gambit</li>
+                                    <li>Split</li>
+                                    <li>Peaky Blinders</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                    <section class="encadrement">
+                        <img src="https://static.wikia.nocookie.net/strangerthings8338/images/d/dd/Millie_Bobby_Brown.webp/revision/latest?cb=20240201015438" height="507" width="332">
+                        <h2>Millie Bobby Brown</h2>
+                        <ul>
+                            <li><b>Full name:</b> AMillie Bobby Brown Bongiovi</li>
+                            <li><b>Born:</b> February 19, 2004</li>
+                            <li><b>Age:</b> 20 yo</li>
+                            <li><b>Height:</b> 1.61 m</li>
+                            <li><b>Nationality:</b> British</li>
+                            <li><b>Some of her films/series:</b>
+                                <ul>
+                                    <li>Stranger Things</li>
+                                    <li>Enola Holmes</li>
+                                    <li>Godzilla: King of the Monsters</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                    <section class="encadrement">
+                        <img src="https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/247026_v9_bc.jpg" height="485" width="363">
+                        <h2>Emma Watson</h2>
+                        <ul>
+                            <li><b>Full name:</b> Emma Charlotte Duerre Watson</li>
+                            <li><b>Born:</b> April 15, 1990</li>
+                            <li><b>Age:</b> 34 yo</li>
+                            <li><b>Height:</b> 1.65 m</li>
+                            <li><b>Nationality:</b> English</li>
+                            <li><b>Some of her films/series:</b>
+                                <ul>
+                                    <li>Harry Potter</li>
+                                    <li>Little Women</li>
+                                    <li>Beauty and the Beast</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                    <section class="encadrement">
+                        <img src="https://cdn.britannica.com/10/237510-050-0D3B1ECE/British-actress-Helena-Bonham-Carter-2019.jpg" height="492" width="356">
+                        <h2>Helena Bonham Carter</h2>
+                        <ul>
+                            <li><b>Full name:</b> Helena Bonham Carter</li>
+                            <li><b>Born:</b> May 26, 1966</li>
+                            <li><b>Age:</b> 58 yo</li>
+                            <li><b>Height:</b> 1.57 m</li>
+                            <li><b>Nationality:</b> English</li>
+                            <li><b>Some of her films/series:</b>
+                                <ul>
+                                    <li>Alice in Wonderland</li>
+                                    <li>Les Miserables</li>
+                                    <li>Fight Club</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+            </div>
+            <div id="Informations">
+                <header class="titre">
+                    <h1>Informations about us</h1>
+                </header>
+                <div class="parties">
+                    <section class="encadrement">
+                        <p>
+                            <ul><h3>Welcome to POPCORN & CHILL - Your Ultimate Destination for Movie and Series Insights!<br><br></h3>
+                                  <li>At POPCORN & CHILL, we believe that every film and series has a story to tell, both on and off the screen. Whether you're a casual viewer or a dedicated cinephile, our platform is designed to keep you informed and entertained.</li><br>
+                                  <li>Explore our extensive database of movie and series reviews, in-depth analyses, and the latest industry news. From timeless classics to the hottest new releases, we cover a wide range of genres and styles to cater to every taste.</li><br> 
+                                  <li>Join our community of film enthusiasts as we dive into captivating discussions, share recommendations, and uncover hidden gems. Stay updated with our curated lists, trailers, and exclusive interviews with filmmakers and actors.</li><br>
+                                  <li>Get ready to embark on a cinematic journey with us - where every frame tells a story!</li>
+                            </ul>
+                        </p>
+                    </section>
+                </div>
+            </div>
+            <div id="Contact_us">
+                <header class="titre">
+                    <h1>Contact us</h1>
+                </header>
+                <div class="parties">
+                    <section class="encadrement">
+                        <p>
+                            <ul>
+                              <li> TEL: +212 656789011 </li><br>
+                              <li> <a href="https://instagram.com">Our Instagram Account</a> </li><br> 
+                              <li> <a href="https://facebook.com">Our Facebook Account</a> </li><br>
+                              <li> <a href="https://twitter.com">Our Twitter Account</a> </li><br>
+                              <li> <a href="mailto:dam@example.com">Our Mail Adress</a> </li>
+                            </ul>
+                          </p>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <div id="signInModal" class="modal">
+            <div class="modal-content">
+                <span class="close-button" id="closeModal">&times;</span>
+                <h2>Sign In</h2>
+                <form id="signInForm">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                    <button type="submit">Submit</button><br><br>
+                    <button type="reset">Reset</button>
+                </form>
+            </div>
+        </div>
+        
+        <script>
+            
+            const images = document.querySelectorAll('.encadrement img');
+    
+            
+            images.forEach(image => {
+                image.addEventListener('mouseover', () => {
+                    image.style.transform = 'scale(1.05)'; 
+                    image.style.transition = 'transform 0.3s ease'; 
+                });
+    
+                image.addEventListener('mouseout', () => {
+                    image.style.transform = 'scale(1)'; 
+                });
+            });
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const authButton = document.querySelector('.signin');
+                const signInModal = document.getElementById('signInModal');
+                const closeModal = document.getElementById('closeModal');
+                const signInForm = document.getElementById('signInForm');
+                
+                authButton.addEventListener('click', (event) => {
+                    event.preventDefault(); 
+                    signInModal.style.display = 'block';
+                });
+                
+                closeModal.addEventListener('click', () => {
+                    signInModal.style.display = 'none'; 
+                });
+                
+                window.addEventListener('click', (event) => {
+                    if (event.target === signInModal) {
+                        signInModal.style.display = 'none'; 
+                    }
+                });
+                
+                signInForm.addEventListener('submit', (event) => {
+                    event.preventDefault(); 
+                    alert('Sign In Successful!'); 
+                    signInModal.style.display = 'none'; 
+                });
+            });
+        </script>
+    </body>
+</html>
